@@ -8,9 +8,13 @@ import * as serviceWorker from './serviceWorker';
 
 const Home = () => {
   const doRedirect = () => {
-    let loggedIn = localStorage.getItem("user-detail");
-    if(loggedIn){
-      return <Redirect to='/app/home'></Redirect>
+    let loggedIn = localStorage.getItem("user-details");
+    if(loggedIn) loggedIn = JSON.parse(loggedIn)
+    if(loggedIn.role === "admin"){
+      return <Redirect to='/adminHome'></Redirect>
+    }
+    else if(loggedIn.role === "basic"){
+      return <Redirect to='/userHome'></Redirect>
     }
     else{
       return <Redirect to='/login'></Redirect>
@@ -18,7 +22,7 @@ const Home = () => {
   }
   return(
     <Router>
-      <Route path='/app'><App></App></Route>
+      <Route path='/'><App></App></Route>
       <Route path='/login'><Login></Login></Route>
       {doRedirect()}
     </Router>
